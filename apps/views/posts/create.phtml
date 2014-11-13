@@ -1,0 +1,40 @@
+<div class="container">
+    <div class="row">
+        <?php echo $this->getContent(); ?>
+        <a class="btn btn-success pull-right" href="/session/logout">LOG OUT</a>
+        <div class="all-posts">
+            <h3>Posts</h3>
+            <?php foreach ($page->items as $item){
+                $delete = $item->users_id==$identity?'<a class="close" href="/posts/delete/'.$item->id.'"></a>':'';
+                echo '<table class="posts">
+						<tr><th>'.$item->nickname.'</th><th>'.$delete.'</th></tr>
+						<tr><td colspan="2">'.$item->message.'</td></tr>
+					</table>';
+            }
+            if ($pagination){
+                echo '<a href="/posts/index">First</a>
+				  	<a href="/posts/index?page='.$page->before.'">Previous</a>
+				  	<span>Page '.$page->current.' of '.$page->total_pages.'</span>
+				  	<a href="/posts/index?page='.$page->next.'">Next</a>
+				  	<a href="/posts/index?page='.$page->last.'">Last</a>';
+            }
+            ?>
+        </div>
+    </div>
+    <div class="row">
+        <?= $this->tag->form(array("posts/create", "method" => "post", "id" => "postForm")) ?>
+        <fieldset>
+            <legend>Add new post</legend>
+            <?php echo $form->render("message") ?>
+            <span class="help-block"><?php
+            if (!$form->isValid($_POST)) {
+                foreach ($form->getMessagesFor("message") as $message) {
+                    echo $message, '<br>';
+                }
+            }?></span>
+
+            <?php echo $form->render("post") ?>
+        </fieldset>
+        <?= $this->tag->endForm() ?>
+    </div>
+</div>
