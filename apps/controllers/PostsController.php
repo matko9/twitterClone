@@ -69,24 +69,24 @@ class PostsController extends \Phalcon\Mvc\Controller {
         $this->view->page = $paginator->getPaginate();
         $this->view->form = new PostForm();
 	}
-	public function deleteAction($id){
-		$post = Posts::findFirstById($id);
-		if (!$post) {
-			$this->flash->error("Post was not found");
-			return $this->dispatcher->forward(array(
-					'action' => 'index'
-			));
-		}
-
-        $identity = $this->auth->getIdentity();
-        if ($identity['id']==$post->users_id){
-            if (!$post->delete()) {
-                $this->flash->error($post->getMessages());
-            } else {
-                $this->flash->success("Post has been deleted");
-            }
+	public function deleteAction(){
+    $this->view->disable();
+    $id=$_POST['id'];
+    $post = Posts::findFirstById($id);
+    if (!$post) {
+      $message='Post was not found!';
+    } else{
+      $identity = $this->auth->getIdentity();
+      if ($identity['id']==$post->users_id){
+        if (!$post->delete()) {
+          $message='Post was not found!';
+        } else {
+          $message='Post deleted.';
         }
-
-		return $this->response->redirect("posts");
+      } else {
+        $message = "You can't delete this post!";
+      }
+    }
+    echo $message;
 	}
 }

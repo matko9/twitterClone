@@ -5,8 +5,9 @@
 		<div class="all-posts">
 			<h3>Posts</h3>
 			<?php foreach ($page->items as $item){
-                $delete = $item->users_id==$identity?'<a class="close" href="/posts/delete/'.$item->id.'"></a>':'';
-				echo '<table class="posts">
+                $delete = $item->users_id==$identity?'<a class="close"
+                onclick="deletePost('.$item->id.');"></a>':'';
+				echo '<table class="posts" id="post_'.$item->id.'">
 						<tr><th>'.$item->nickname.'</th><th>'.$delete.'</th></tr>
 						<tr><td colspan="2">'.$item->message.'</td></tr>
 					</table>';

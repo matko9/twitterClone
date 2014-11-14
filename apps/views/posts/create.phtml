@@ -2,24 +2,29 @@
     <div class="row">
         <?php echo $this->getContent(); ?>
         <a class="btn btn-success pull-right" href="/session/logout">LOG OUT</a>
-        <div class="all-posts">
-            <h3>Posts</h3>
-            <?php foreach ($page->items as $item){
-                $delete = $item->users_id==$identity?'<a class="close" href="/posts/delete/'.$item->id.'"></a>':'';
-                echo '<table class="posts">
+      <div class="all-posts">
+        <h3>Posts</h3>
+        <?php foreach ($page->items as $item){
+          $delete = $item->users_id==$identity?'<a class="close"
+                onclick="deletePost('.$item->id.');"></a>':'';
+          echo '<table class="posts" id="post_'.$item->id.'">
 						<tr><th>'.$item->nickname.'</th><th>'.$delete.'</th></tr>
 						<tr><td colspan="2">'.$item->message.'</td></tr>
 					</table>';
-            }
-            if ($pagination){
-                echo '<a href="/posts/index">First</a>
-				  	<a href="/posts/index?page='.$page->before.'">Previous</a>
-				  	<span>Page '.$page->current.' of '.$page->total_pages.'</span>
-				  	<a href="/posts/index?page='.$page->next.'">Next</a>
-				  	<a href="/posts/index?page='.$page->last.'">Last</a>';
-            }
-            ?>
-        </div>
+        }
+        if ($pagination){
+          echo '<div class="bs-example">
+                    <ul class="pagination">
+                        <li><a href="/posts/index">&laquo;</a></li>
+                        <li><a href="/posts/index?page='.$page->before.'">&lsaquo;</a></li>
+                        <li><span>Page '.$page->current.' of '.$page->total_pages.'</span></li>
+                        <li><a href="/posts/index?page='.$page->next.'">&rsaquo;</a></li>
+                        <li><a href="/posts/index?page='.$page->last.'">&raquo;</a></li>
+
+                    </ul></div>';
+        }
+        ?>
+      </div>
     </div>
     <div class="row">
         <?= $this->tag->form(array("posts/create", "method" => "post", "id" => "postForm")) ?>
