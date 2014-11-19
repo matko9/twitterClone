@@ -8,7 +8,7 @@ function deletePost(id){
     data: { id: id}
   })
     .done(function( msg ) {
-      if(msg=='succes'){
+      if(msg=='Success'){
         var idPost = '#post_'+id;
         $(idPost).remove();
       } else {

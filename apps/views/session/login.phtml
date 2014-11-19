@@ -1,23 +1,27 @@
 <div class="container">
-    <div class="row">
-        <?php echo $this->getContent(); ?>
-        <?php echo $this->tag->form(array("method" => "post", "id" => "postForm", "class" => "form-horizontal")); ?>
-            <?php echo $form->render("csrf", array(
-                "value" => $this->security->getToken(),
-            )); ?>
+  <div class="row">
+    <?php echo $this->getContent(); ?>
+    <?php echo $this->tag->form(array(
+        "method" => "post",
+        "id" => "postForm",
+        "class" => "form-horizontal"
+      )); ?>
+    <?php echo $form->render("csrf", array(
+      "value" => $this->security->getToken(),
+    )); ?>
 
-            <div class="form-group">
-                <?php echo $form->render("email"); ?>
-                <?php echo $form->messages("email"); ?>
-            </div>
-
-            <div class="form-group">
-                <?php echo $form->render("password"); ?>
-                <?php echo $form->messages("password"); ?>
-            </div>
-
-            <?php echo $form->render("Login"); ?>
-
-        <?php echo $this->tag->endForm(); ?>
+    <div class="form-group">
+      <?php echo $form->render("email"); ?>
+      <?php echo $form->messages("email"); ?>
     </div>
+
+    <div class="form-group">
+      <?php echo $form->render("password"); ?>
+      <?php echo $form->messages("password"); ?>
+    </div>
+
+    <?php echo $form->render("Login"); ?>
+
+    <?php echo $this->tag->endForm(); ?>
+  </div>
 </div>

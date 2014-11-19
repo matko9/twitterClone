@@ -9,134 +9,132 @@
 namespace TwitterClone\Forms;
 
 use Phalcon\Forms\Form,
-    Phalcon\Forms\Element\Text,
-    Phalcon\Forms\Element\TextArea,
-    Phalcon\Forms\Element\Password,
-    Phalcon\Forms\Element\Hidden,
-    Phalcon\Forms\Element\Submit,
-    Phalcon\Validation\Validator\PresenceOf,
-    Phalcon\Validation\Validator\StringLength,
-    Phalcon\Validation\Validator\Email,
-    Phalcon\Validation\Validator\Confirmation,
-    Phalcon\Validation\Validator\Identical;
+  Phalcon\Forms\Element\Text,
+  Phalcon\Forms\Element\TextArea,
+  Phalcon\Forms\Element\Password,
+  Phalcon\Forms\Element\Hidden,
+  Phalcon\Forms\Element\Submit,
+  Phalcon\Validation\Validator\PresenceOf,
+  Phalcon\Validation\Validator\StringLength,
+  Phalcon\Validation\Validator\Email,
+  Phalcon\Validation\Validator\Confirmation,
+  Phalcon\Validation\Validator\Identical;
 
-class SignUpForm extends Form
-{
-    public function initialize()
-    {
-        $name = new Text('name', array(
-            'placeholder' => 'Name',
-            'class' => 'form-control'
-        ));
+class SignUpForm extends Form {
 
-        $name->addValidators(array(
-            new PresenceOf(array(
-                'message' => 'The name is required'
-            ))
-        ));
+  public function initialize () {
+    $name = new Text('name', array(
+      'placeholder' => 'Name',
+      'class' => 'form-control'
+    ));
 
-        $this->add($name);
+    $name->addValidators(array(
+      new PresenceOf(array(
+        'message' => 'The name is required'
+      ))
+    ));
 
-        $surname = new Text('surname', array(
-            'placeholder' => 'Surname',
-            'class' => 'form-control'
-        ));
+    $this->add($name);
 
-        $surname->addValidators(array(
-            new PresenceOf(array(
-                'message' => 'The surname is required'
-            ))
-        ));
+    $surname = new Text('surname', array(
+      'placeholder' => 'Surname',
+      'class' => 'form-control'
+    ));
 
-        $this->add($surname);
+    $surname->addValidators(array(
+      new PresenceOf(array(
+        'message' => 'The surname is required'
+      ))
+    ));
 
-        $nickname = new Text('nickname', array(
-            'placeholder' => 'Nickname',
-            'class' => 'form-control'
-        ));
+    $this->add($surname);
 
-        $nickname->addValidators(array(
-            new PresenceOf(array(
-                'message' => 'The nickname is required'
-            ))
-        ));
+    $nickname = new Text('nickname', array(
+      'placeholder' => 'Nickname',
+      'class' => 'form-control'
+    ));
 
-        $this->add($nickname);
+    $nickname->addValidators(array(
+      new PresenceOf(array(
+        'message' => 'The nickname is required'
+      ))
+    ));
 
-        $email = new Text('email', array(
-            'placeholder' => 'Email',
-            'class' => 'form-control'
-        ));
+    $this->add($nickname);
 
-        $email->addValidators(array(
-            new PresenceOf(array(
-                'message' => 'The e-mail is required'
-            )),
-            new Email(array(
-                'message' => 'The e-mail is not valid'
-            ))
-        ));
+    $email = new Text('email', array(
+      'placeholder' => 'Email',
+      'class' => 'form-control'
+    ));
 
-        $this->add($email);
+    $email->addValidators(array(
+      new PresenceOf(array(
+        'message' => 'The e-mail is required'
+      )),
+      new Email(array(
+        'message' => 'The e-mail is not valid'
+      ))
+    ));
 
-        $password = new Password('password',  array(
-            'placeholder' => 'Password',
-            'class' => 'form-control'
-        ));
+    $this->add($email);
 
-        $password->addValidators(array(
-            new PresenceOf(array(
-                'message' => 'The password is required'
-            )),
-            new StringLength(array(
-                'min' => 8,
-                'messageMinimum' => 'Password is too short. Minimum 8 characters'
-            )),
-            new Confirmation(array(
-                'message' => 'Password doesn\'t match confirmation',
-                'with' => 'confirmPassword'
-            ))
-        ));
+    $password = new Password('password', array(
+      'placeholder' => 'Password',
+      'class' => 'form-control'
+    ));
 
-        $this->add($password);
+    $password->addValidators(array(
+      new PresenceOf(array(
+        'message' => 'The password is required'
+      )),
+      new StringLength(array(
+        'min' => 8,
+        'messageMinimum' => 'Password is too short. Minimum 8 characters'
+      )),
+      new Confirmation(array(
+        'message' => 'Password doesn\'t match confirmation',
+        'with' => 'confirmPassword'
+      ))
+    ));
 
-        // Confirm Password
-        $confirmPassword = new Password('confirmPassword',  array(
-            'placeholder' => 'Confirm password',
-            'class' => 'form-control'
-        ));
+    $this->add($password);
 
-        $confirmPassword->addValidators(array(
-            new PresenceOf(array(
-                'message' => 'The confirmation password is required'
-            ))
-        ));
-        $this->add($confirmPassword);
+    // Confirm Password
+    $confirmPassword = new Password('confirmPassword', array(
+      'placeholder' => 'Confirm password',
+      'class' => 'form-control'
+    ));
 
-        // CSRF
-        $csrf = new Hidden('csrf');
+    $confirmPassword->addValidators(array(
+      new PresenceOf(array(
+        'message' => 'The confirmation password is required'
+      ))
+    ));
+    $this->add($confirmPassword);
 
-        $csrf->addValidator(new Identical(array(
-            'value' => $this->security->getSessionToken(),
-            'message' => 'CSRF validation failed'
-        )));
+    // CSRF
+    $csrf = new Hidden('csrf');
 
-        $this->add($csrf);
+    $csrf->addValidator(new Identical(array(
+      'value' => $this->security->getSessionToken(),
+      'message' => 'CSRF validation failed'
+    )));
 
-        $this->add(new Submit('Sign Up', array(
-            'class' => 'btn btn-success pull-right'
-        )));
+    $this->add($csrf);
+
+    $this->add(new Submit('Sign Up', array(
+      'class' => 'btn btn-success pull-right'
+    )));
+  }
+
+  /**
+   * Prints messages for a specific element
+   */
+  public function messages ($name) {
+    if ($this->hasMessagesFor($name)) {
+      foreach ($this->getMessagesFor($name) as $message) {
+        $this->flash->error($message);
+      }
     }
-
-    /**
-     * Prints messages for a specific element
-     */
-    public function messages($name)
-    {
-        if ($this->hasMessagesFor($name)) {
-            foreach ($this->getMessagesFor($name) as $message) {
-                $this->flash->error($message);
-            }
-        }
-    }
+  }
 }

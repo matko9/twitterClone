@@ -10,45 +10,46 @@ namespace TwitterClone\Models;
 use Phalcon\Mvc\Model\Validator\Uniqueness;
 
 class Users extends \Phalcon\Mvc\Model {
-    /**
-     * @var integer
-     */
-    public $id;
 
-    /**
-     * @var string
-     */
-    public $name;
+  /**
+   * @var integer
+   */
+  public $id;
 
-    /**
-     * @var string
-     */
-    public $surname;
+  /**
+   * @var string
+   */
+  public $name;
 
-    /**
-     * @var string
-     */
-    public $nickname;
+  /**
+   * @var string
+   */
+  public $surname;
 
-    /**
-     * @var string
-     */
-    public $email;
+  /**
+   * @var string
+   */
+  public $nickname;
 
-    /**
-     * @var string
-     */
-    public $password;
+  /**
+   * @var string
+   */
+  public $email;
 
-    public function initialize(){
-        $this->hasMany("id",'TwitterClone\Models\Posts',"users_id");
-    }
+  /**
+   * @var string
+   */
+  public $password;
 
-    public function validation(){
-        $this->validate(new Uniqueness(array(
-            "field" => "email",
-            "message" => "The email is already registered"
-        )));
-        return $this->validationHasFailed() != true;
-    }
+  public function initialize () {
+    $this->hasMany("id", 'TwitterClone\Models\Posts', "users_id");
+  }
+
+  public function validation () {
+    $this->validate(new Uniqueness(array(
+      "field" => "email",
+      "message" => "The email is already registered"
+    )));
+    return $this->validationHasFailed() != true;
+  }
 }
