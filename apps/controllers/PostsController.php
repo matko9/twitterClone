@@ -79,7 +79,7 @@ class PostsController extends \Phalcon\Mvc\Controller {
       $message = 'Post was not found!';
     } else {
       $identity = $this->auth->getIdentity();
-      if ($identity['id'] == $post->users_id) {
+      if ($post->isDeletableByUser($identity['id'])) {
         if (!$post->delete()) {
           $message = 'Post was not found!';
         } else {

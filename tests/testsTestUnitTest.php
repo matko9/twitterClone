@@ -12,27 +12,39 @@ class UnitTest extends \UnitTestCase {
   public function test_addPost () {
     $post = new Posts();
       $post->assign(array(
-        'id' => '12345678',
         'users_id' => '12345678',
-        'message' => 'test message'
+        'message' => 'test message for unit test only'
       ));
 
       $post->save();
 
-    $testPost = Posts::findFirstById('12345678');
+    $testPost = Posts::findFirstByMessage('test message for unit test only');
 
     $this->assertEquals($testPost->message,
-      'test message',
+      'test message for unit test only',
       'Adding post does not work'
     );
   }
 
+  public function test_deletePostWhichYouCant () {
+    $post = Posts::findFirstByMessage('test message for unit test only');
+
+    if ($post->isDeletableByUser('12345679')) {
+      $this->assertEquals($post->delete(),
+        false,
+        "We can delete posts which we didn't post"
+      );
+    }
+  }
+
   public function test_deletePost () {
-    $post = Posts::findFirstById('12345678');
+    $post = Posts::findFirstByMessage('test message for unit test only');
 
-    $post->delete();
+    if ($post->isDeletableByUser('12345678')) {
+      $post->delete();
+    }
 
-    $this->assertEquals(Posts::findFirstById('12345678'),
+    $this->assertEquals(Posts::findFirstByMessage('test message for unit test only'),
       false,
       'Deleting post does not work'
     );
@@ -46,7 +58,7 @@ class UnitTest extends \UnitTestCase {
       'surname' => 'test user surname',
       'nickname' => 'test user nickname',
       'email' => 'test.user.email@testemail.com',
-      'password' => '$2a$12$57d63765af316acc7045d6ceec705e0b801a6ef905e0b801a6hrd',
+      'password' => 'testpassword',
     ));
 
     $this->assertEquals($user->save(),
@@ -63,7 +75,7 @@ class UnitTest extends \UnitTestCase {
       'surname' => 'test user surname 2',
       'nickname' => 'test user nickname 2',
       'email' => 'test.user.email@testemail.com',
-      'password' => '$2a$12$57d63765af8319hda8486ceec705e0b801a6ef905e0b801a6hrd',
+      'password' => 'testpass',
     ));
 
     $this->assertEquals($user->save(),

@@ -7,7 +7,8 @@
  */
 namespace TwitterClone\Models;
 
-use Phalcon\Mvc\Model\Validator\Uniqueness;
+use Phalcon\Mvc\Model\Validator\Uniqueness,
+  Phalcon\Security;
 
 class Users extends \Phalcon\Mvc\Model {
 
@@ -43,6 +44,14 @@ class Users extends \Phalcon\Mvc\Model {
 
   public function initialize () {
     $this->hasMany("id", 'TwitterClone\Models\Posts', "users_id");
+  }
+
+  public function beforeSave(){
+    $security = new Security();
+
+    //Set the password hashing factor to 12 rounds
+    $security->setWorkFactor(12);
+    $this->password = $security->hash($this->password);
   }
 
   public function validation () {

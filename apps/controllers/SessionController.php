@@ -23,7 +23,7 @@ class SessionController extends \Phalcon\Mvc\Controller {
           'surname' => $this->request->getPost('surname', 'striptags'),
           'nickname' => $this->request->getPost('nickname', 'striptags'),
           'email' => $this->request->getPost('email'),
-          'password' => $this->security->hash($this->request->getPost('password', 'striptags'))
+          'password' => $this->request->getPost('password', 'striptags')
         ));
         if ($user->save()) {
           return $this->dispatcher->forward(array(

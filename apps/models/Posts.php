@@ -35,4 +35,8 @@ class Posts extends \Phalcon\Mvc\Model {
     )));
     return $this->validationHasFailed() != true;
   }
+
+  public function isDeletableByUser($usersId) {
+    return ($usersId == $this->users_id);
+  }
 }
